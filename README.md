@@ -123,12 +123,41 @@ public class InvoiceDTO {
 
 ## Testing
 
+The project includes unit tests to ensure the functionality of the application. The tests are located in the `src/test/java` directory.
 
+To run the tests, use the following command:
+
+```sh
+mvn test
+```
+
+### Example Test
+
+```java
+@SpringBootTest
+class AssignmentbeApplicationTests {
+
+    @Test
+    void contextLoads() {
+    }
+}
 ```
 
 ## Docker Support
 
 The project includes a `docker-compose.yml` file for containerized deployment.
+
+### Running with Docker
+
+1. **Build the Docker image:**
+   ```sh
+   docker-compose build
+   ```
+
+2. **Run the Docker container:**
+   ```sh
+   docker-compose up
+   ```
 
 The application will be available on port 8080.
 
