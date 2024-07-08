@@ -214,4 +214,3 @@ The application will be available on port 8080.
 ---
 
 This documentation provides a basic overview and setup instructions for the Invoice Management System. For more detailed information, refer to the source code and comments within the project files.
-```
