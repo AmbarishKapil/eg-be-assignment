@@ -74,7 +74,7 @@ assignmentbe
 │   │               └── global
 │   │                   └── assignmentbe
 |   |                       ├── entities
-│   │   │                   │   └── InvoiceDTOTest.java
+│   │                       │   └── InvoiceDTOTest.java
 │   │                       └── AssignmentbeApplicationTests.java
 ├── docker-compose.yml
 ├── pom.xml
