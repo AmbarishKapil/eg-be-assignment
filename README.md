@@ -215,5 +215,3 @@ The application will be available on port 8080.
 
 This documentation provides a basic overview and setup instructions for the Invoice Management System. For more detailed information, refer to the source code and comments within the project files.
 ```
-
-This updated `README.md` file now includes all four API endpoints, a JUnit test for `InvoiceDTO`, and information about using `@JsonView` to reuse `InvoiceDTO`.
