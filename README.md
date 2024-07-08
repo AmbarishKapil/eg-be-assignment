@@ -199,14 +199,14 @@ The project includes a `docker-compose.yml` file for containerized deployment.
 
 ### Running with Docker
 
-1. **Build the Docker image:**
+1. **Create the executable .jar:**
    ```sh
-   docker-compose build
+   mvn clean package
    ```
 
 2. **Run the Docker container:**
    ```sh
-   docker-compose up
+   docker-compose up --build
    ```
 
 The application will be available on port 8080.
