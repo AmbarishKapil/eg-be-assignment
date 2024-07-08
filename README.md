@@ -1,3 +1,5 @@
+
+```markdown
 # Invoice Management System
 
 ## Overview
@@ -40,6 +42,8 @@ The Invoice Management System is a simple implementation designed to manage invo
    mvn spring-boot:run
    ```
 
+The application will start on port 8080 by default.
+
 ## Project Structure
 
 ```
@@ -63,14 +67,14 @@ assignmentbe
 │   │   │                   ├── services
 │   │   │                   │   └── InvoiceService.java
 │   │   │                   └── AssignmentbeApplication.java
-│   │   └── resources
-│   │       └── application.properties
 │   ├── test
 │   │   └── java
 │   │       └── dk
 │   │           └── eg
 │   │               └── global
 │   │                   └── assignmentbe
+|   |                       ├── entities
+│   │   │                   │   └── InvoiceDTOTest.java
 │   │                       └── AssignmentbeApplicationTests.java
 ├── docker-compose.yml
 ├── pom.xml
@@ -107,6 +111,24 @@ The application will start on port 8080 by default.
   - **Description:** Retrieves a list of all invoices.
   - **Response:** `200 OK` with a list of `InvoiceDTO`.
 
+- **Create Invoice**
+  - **Endpoint:** `POST /invoices`
+  - **Description:** Creates a new invoice.
+  - **Request Body:** `InvoiceDTO` with the invoice details.
+  - **Response:** `201 Created` with the created `InvoiceDTO`.
+
+- **Update Invoice Payment**
+  - **Endpoint:** `POST /invoices/{id}/payments`
+  - **Description:** Updates the payment details of an invoice.
+  - **Request Body:** `PaymentDTO` with the payment details.
+  - **Response:** `204 No Content`
+
+- **Process Overdue Invoices**
+  - **Endpoint:** `POST /process-overdue`
+  - **Description:** Processes overdue invoices by applying a late fee.
+  - **Request Body:** `OverdueDTO` containing `lateFee` and `overdueDays`.
+  - **Response:** `204 No Content`
+
 ### Example of `InvoiceDTO`
 
 ```java
@@ -117,9 +139,22 @@ The application will start on port 8080 by default.
 public class InvoiceDTO {
     @JsonView({InvoiceViews.Id.class, InvoiceViews.Full.class, InvoiceViews.ToCreate.class})
     long id;
-    // other fields...
+
+    @JsonView({InvoiceViews.Amount.class, InvoiceViews.Full.class, InvoiceViews.ToCreate.class})
+    @JsonProperty("amount")
+    double amount;
+
+    @JsonView({InvoiceViews.PaidAmount.class, InvoiceViews.Full.class})
+    @JsonProperty("paid_amount")
+    double paidAmount;
+
+    @JsonView({InvoiceViews.Status.class, InvoiceViews.Full.class})
+    @JsonProperty("invoice_status")
+    InvoiceStatus invoiceStatus;
 }
 ```
+
+I have leveraged @JsonView(from Jackson) to reuse the InvoiceDTO class, whenever a subset of fields are required, rather than creating a new DTO everytime.
 
 ## Testing
 
@@ -133,12 +168,27 @@ mvn test
 
 ### Example Test
 
+### JUnit Test for `InvoiceDTO`
+
 ```java
-@SpringBootTest
-class AssignmentbeApplicationTests {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
+
+public class InvoiceDTOTest {
 
     @Test
-    void contextLoads() {
+    public void testInvoiceDTO() {
+        InvoiceDTO invoice = new InvoiceDTO();
+        invoice.setId(1L);
+        invoice.setAmount(100.0);
+        invoice.setPaidAmount(50.0);
+        invoice.setInvoiceStatus(InvoiceStatus.PENDING);
+
+        assertEquals(1L, invoice.getId());
+        assertEquals(100.0, invoice.getAmount());
+        assertEquals(50.0, invoice.getPaidAmount());
+        assertEquals(InvoiceStatus.PENDING, invoice.getInvoiceStatus());
     }
 }
 ```
@@ -164,3 +214,6 @@ The application will be available on port 8080.
 ---
 
 This documentation provides a basic overview and setup instructions for the Invoice Management System. For more detailed information, refer to the source code and comments within the project files.
+```
+
+This updated `README.md` file now includes all four API endpoints, a JUnit test for `InvoiceDTO`, and information about using `@JsonView` to reuse `InvoiceDTO`.
