@@ -3,6 +3,7 @@ package dk.eg.global.assignmentbe.controllers;
 import com.fasterxml.jackson.annotation.JsonView;
 import dk.eg.global.assignmentbe.dtos.InvoiceDTO;
 import dk.eg.global.assignmentbe.dtos.InvoiceViews;
+import dk.eg.global.assignmentbe.dtos.OverdueDTO;
 import dk.eg.global.assignmentbe.dtos.PaymentDTO;
 import dk.eg.global.assignmentbe.services.InvoiceService;
 import org.springframework.http.HttpStatus;
@@ -41,6 +42,12 @@ public class InvoiceController {
             @PathVariable Long id,
             @RequestBody PaymentDTO paymentDTO){
         invoiceService.updateInvoicePayment(id, paymentDTO);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/process-overdue")
+    public ResponseEntity<?> updateProcessOverdue(@RequestBody OverdueDTO overdueDTO){
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
