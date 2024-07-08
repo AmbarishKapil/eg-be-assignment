@@ -47,7 +47,7 @@ public class InvoiceController {
 
     @PostMapping("/process-overdue")
     public ResponseEntity<?> updateProcessOverdue(@RequestBody OverdueDTO overdueDTO){
-
+        invoiceService.processOverdueInvoices(overdueDTO.getLateFee(), overdueDTO.getOverdueDays());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
